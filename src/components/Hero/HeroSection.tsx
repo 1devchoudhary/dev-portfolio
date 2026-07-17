@@ -62,13 +62,13 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <h2 className="text-accent font-medium tracking-widest uppercase mb-2">Hello, I am</h2>
+            <p className="text-accent font-medium tracking-widest uppercase mb-2">Hello, I am</p>
             <h1 className="text-5xl md:text-7xl font-heading font-bold leading-tight mb-2">
               {name}
             </h1>
-            <h3 className="text-2xl md:text-3xl text-gray-400 font-heading">
+            <p className="text-2xl md:text-3xl text-gray-400 font-heading">
               {role}
-            </h3>
+            </p>
           </motion.div>
 
           <motion.p

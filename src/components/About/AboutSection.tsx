@@ -38,7 +38,7 @@ export default function AboutSection() {
             </div>
 
             <div className="relative z-10">
-              <h3 className="text-2xl font-heading font-bold text-white">{name}</h3>
+              <p className="text-2xl font-heading font-bold text-white">{name}</p>
               <p className="text-secondary text-sm mt-1">{role}</p>
               <p className="text-gray-500 text-xs flex items-center justify-center gap-1.5 mt-2">
                 <MapPin className="w-3.5 h-3.5" /> Indore, India

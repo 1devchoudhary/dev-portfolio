@@ -13,6 +13,7 @@ type MagneticButtonProps = {
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   onClick?: (e: React.MouseEvent) => void;
+  "aria-label"?: string;
 };
 
 export default function MagneticButton({ children, href, className = "", variant = "primary", target, rel, type, disabled, onClick, ...props }: MagneticButtonProps) {
@@ -63,6 +64,7 @@ export default function MagneticButton({ children, href, className = "", variant
         animate={{ x: position.x, y: position.y }}
         transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
         className={`${baseStyles} ${variants[variant]} ${className}`}
+        {...props}
       >
         {content}
       </motion.a>
@@ -80,6 +82,7 @@ export default function MagneticButton({ children, href, className = "", variant
       type={type}
       disabled={disabled}
       onClick={onClick}
+      {...props}
     >
       {content}
     </motion.button>
