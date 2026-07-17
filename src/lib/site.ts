@@ -2,7 +2,7 @@
 // your real domain (or update the fallback below) so canonical URLs, the
 // sitemap, and social previews point at the live site.
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://devendra-choudhary.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://dev-portfolio-nu-ashen.vercel.app";
 
 export const SITE = {
   name: "Devendra Choudhary",
