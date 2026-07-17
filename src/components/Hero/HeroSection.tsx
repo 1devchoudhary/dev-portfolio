@@ -44,7 +44,7 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative w-full h-screen min-h-[600px] flex items-center"
+      className="relative w-full min-h-screen md:h-screen flex items-start md:items-center pt-28 md:pt-0"
     >
       {/* Full-bleed 3D backdrop: spans the whole hero so the canvas has no visible
           edges; pointer events are routed from the section element instead */}
