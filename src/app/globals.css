@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #09090b;
+  --color-foreground: #fafafa;
+  --color-accent: #ff5900;
+  --color-secondary: #ff8a00;
+  --color-nebula: #8b5cf6; /* cool counterpoint to the orange accent */
+  --color-panel: rgba(24, 24, 27, 0.5); /* backdrop blur panel */
+
+  --font-heading: var(--font-syne);
+  --font-sans: var(--font-inter);
+
+  /* Glows */
+  --shadow-glow: 0 0 20px rgba(255, 89, 0, 0.3);
+  --shadow-glow-strong: 0 0 30px rgba(255, 89, 0, 0.6);
+}
+
+:root {
+  --background: #09090b;
+  --foreground: #fafafa;
+}
+
+body {
+  background-color: var(--background);
+  background-image: radial-gradient(circle at top right, rgba(255, 89, 0, 0.05), transparent 40%),
+                    radial-gradient(circle at 70% 45%, rgba(124, 58, 237, 0.045), transparent 45%),
+                    radial-gradient(circle at bottom left, rgba(255, 138, 0, 0.05), transparent 40%);
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Base styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), sans-serif;
+  font-weight: 700;
+}
+
+/* Section headings: warm-to-cool gradient on the accent word */
+@utility text-gradient-accent {
+  background: linear-gradient(95deg, #ff5900, #ff8a00 45%, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Ambient nebula drift (AmbientGlow component) */
+@media (prefers-reduced-motion: no-preference) {
+  .nebula-drift-a { animation: nebula-a 26s ease-in-out infinite; }
+  .nebula-drift-b { animation: nebula-b 34s ease-in-out infinite; }
+  .spin-slow { animation: spin-slow 28s linear infinite; }
+  .spin-slow-rev { animation: spin-slow 38s linear infinite reverse; }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+@keyframes nebula-a {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-5%, 4%); }
+}
+@keyframes nebula-b {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(4%, -5%); }
+}
+
+/* Glassmorphism utility classes */
+@utility glass {
+  background: rgba(24, 24, 27, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 89, 0, 0.1);
+}
+
+@utility glass-hover {
+  border-color: rgba(255, 89, 0, 0.3);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 89, 0, 0.5);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff5900;
+}
+
+/* Hide cursor natively since we have a custom cursor, but only on desktop (handled in React) */
+@media (min-width: 768px) {
+  /* .custom-cursor-enabled * {
+    cursor: none;
+  } */
+}
+
+/* Sparky, the cursor buddy */
+.sparky-sprite {
+  margin: -34px 0 0 -28px;
+  position: relative;
+  will-change: transform;
+}
+.sparky-eye,
+.sparky-mouth {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.1s;
+}
+.sparky-mouth { transition: opacity 0.2s; }
+.sparky.sparky-blink .sparky-eye,
+.sparky.sparky-sleep .sparky-eye { transform: scaleY(0.12); }
+.sparky.sparky-excited .sparky-eye { transform: scaleY(1.28); }
+.sparky.sparky-excited .sparky-mouth,
+.sparky.sparky-act .sparky-mouth { opacity: 1; }
+.sparky-thruster { opacity: 0.9; transition: opacity 0.4s; }
+.sparky.sparky-sleep .sparky-thruster { opacity: 0.25; }
+
+.sparky-spin { animation: sparky-spin 0.75s cubic-bezier(0.45, 0, 0.3, 1); }
+.sparky-wiggle { animation: sparky-wig 0.65s ease-in-out; }
+@keyframes sparky-spin { to { transform: rotate(360deg); } }
+@keyframes sparky-wig {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-14deg); }
+  60% { transform: rotate(12deg); }
+}
+
+.sparky-quip {
+  position: absolute;
+  bottom: 76px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.85);
+  transform-origin: bottom center;
+  background: rgba(24, 24, 27, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 89, 0, 0.35);
+  border-radius: 12px 12px 12px 3px;
+  padding: 7px 13px;
+  font-size: 13px;
+  white-space: nowrap;
+  color: var(--foreground);
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+}
+.sparky.sparky-talking .sparky-quip {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.sparky-particle {
+  position: absolute;
+  color: #ff8a00;
+  font-size: 13px;
+  animation: sparky-rise 1s ease-out forwards;
+}
+.sparky-zee {
+  color: #9d9da6;
+  font-size: 15px;
+  animation-duration: 1.8s;
+}
+@keyframes sparky-rise {
+  from { opacity: 1; transform: translate(0, 0) scale(1); }
+  to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.4); }
+}
