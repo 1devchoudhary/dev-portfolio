@@ -33,11 +33,17 @@ export default function HeroSection() {
   // everyone else keeps the lightweight static visual
   const [show3D, setShow3D] = useState(false);
   useEffect(() => {
-    const finePointer = window.matchMedia("(pointer: fine)").matches;
-    const wideEnough = window.innerWidth >= 768;
     const probe = document.createElement("canvas");
     const hasWebGL = !!(probe.getContext("webgl2") || probe.getContext("webgl"));
-    setShow3D(finePointer && wideEnough && hasWebGL);
+    // Re-evaluate on resize/rotate so the scene mounts/unmounts across the breakpoint
+    const evaluate = () => {
+      const finePointer = window.matchMedia("(pointer: fine)").matches;
+      const wideEnough = window.innerWidth >= 768;
+      setShow3D(hasWebGL && finePointer && wideEnough);
+    };
+    evaluate();
+    window.addEventListener("resize", evaluate);
+    return () => window.removeEventListener("resize", evaluate);
   }, []);
 
   return (

@@ -15,12 +15,18 @@ export default function JourneySection() {
   // everyone else gets the lightweight timeline
   const [show3D, setShow3D] = useState(false);
   useEffect(() => {
-    const finePointer = window.matchMedia("(pointer: fine)").matches;
-    const wideEnough = window.innerWidth >= 768;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const probe = document.createElement("canvas");
     const hasWebGL = !!(probe.getContext("webgl2") || probe.getContext("webgl"));
-    setShow3D(finePointer && wideEnough && hasWebGL && !reduced);
+    // Re-evaluate on resize/rotate so crossing the breakpoint swaps orbit <-> timeline
+    const evaluate = () => {
+      const finePointer = window.matchMedia("(pointer: fine)").matches;
+      const wideEnough = window.innerWidth >= 768;
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setShow3D(hasWebGL && finePointer && wideEnough && !reduced);
+    };
+    evaluate();
+    window.addEventListener("resize", evaluate);
+    return () => window.removeEventListener("resize", evaluate);
   }, []);
 
   return show3D ? <OrbitJourney /> : <SimpleJourney />;
