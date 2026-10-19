@@ -2,7 +2,7 @@
 
 Portfolio of a backend-focused full stack developer, built with Next.js and Tailwind CSS. A dark, warm-orange design with a glowing CSS orb, a scroll-told "journey" from first code to production, and project case studies drawn as animated data-flow diagrams — rich to look at, but fast and readable on any device.
 
-**🔗 Live site → [dev-portfolio-nu-ashen.vercel.app](https://dev-portfolio-nu-ashen.vercel.app)**
+**🔗 Live site → [devendra-choudhary.vercel.app](https://devendra-choudhary.vercel.app)**
 
 ![Portfolio preview](public/preview.png)
 
