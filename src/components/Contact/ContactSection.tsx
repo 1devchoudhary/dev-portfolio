@@ -2,14 +2,13 @@
 
 import { useState } from "react";
 import { Mail, Send } from "lucide-react";
-import { portfolioContent } from "@/data/content";
+import type { SiteContent } from "@/lib/schema";
 import { GithubIcon, LinkedinIcon } from "../UI/BrandIcons";
 
 const fieldClass =
   "w-full rounded-lg border border-border bg-background/70 px-4 py-3 text-foreground placeholder:text-dim focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors";
 
-export default function ContactSection() {
-  const { socials } = portfolioContent;
+export default function ContactSection({ socials }: Pick<SiteContent, "socials">) {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
 

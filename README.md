@@ -21,7 +21,8 @@ Portfolio of a backend-focused full stack developer, built with Next.js and Tail
 | Framework | Next.js 16 (App Router) · React 19 · TypeScript |
 | Styling | Tailwind CSS v4 · Sora / Inter / JetBrains Mono |
 | Icons | lucide-react |
-| Forms | Web3Forms (no backend) |
+| Content & auth | MongoDB Atlas · server actions · jose (JWT) · zod |
+| Forms | Web3Forms |
 | Hosting | Vercel |
 
 ## Running locally
@@ -45,31 +46,52 @@ npm run dev     # http://localhost:3000
 npm run build   # production build
 ```
 
-## Editing content
+## Editing content — the admin panel
 
-All copy — hero, stats, journey, projects (including their flow-diagram steps), skills, and social links — lives in one typed file:
+Everything on the site (profile, stats, journey, projects, skills, links) and the résumé PDF can be edited at **`/admin`** — no code, commit, or deploy. Saving writes to MongoDB and regenerates the homepage within seconds; the Résumé button (`/resume`) serves the latest uploaded PDF.
 
-```
-src/data/content.ts
-```
+- **Login:** a single admin password, checked with scrypt; session is a signed JWT in an httpOnly cookie (8 h). 5 failed attempts per IP lock logins for 15 minutes.
+- **Safety:** every save is validated server-side (zod), uploads must be real PDFs ≤ 2 MB, and every server action re-checks the session.
+- **Fallback:** without a database (or before the first save) the site renders the built-in content in `src/data/content.ts` and the PDF in `public/`.
 
-Edit it there and every section updates; no component changes needed. Colours and fonts are defined once in `src/app/globals.css` (`@theme`) and `src/app/layout.tsx`.
+### One-time setup
+
+1. **MongoDB Atlas** (free M0): create a cluster and a database user; under *Network Access* allow `0.0.0.0/0` (Vercel has no fixed IPs); copy the connection string.
+2. **Admin password:**
+   ```bash
+   npm run hash-password -- "a-long-password-you-will-remember"
+   ```
+   It prints `ADMIN_PASSWORD_HASH` and `SESSION_SECRET`.
+3. **Environment variables** — add to `.env.local` for local use, and in Vercel → *Settings → Environment Variables* for production, then redeploy once:
+   ```bash
+   MONGODB_URI=mongodb+srv://...
+   ADMIN_PASSWORD_HASH=...
+   SESSION_SECRET=...
+   # optional, defaults to "portfolio"
+   MONGODB_DB=portfolio
+   ```
+4. Open `/admin`, sign in, press **Save changes** once to copy the built-in content into the database, and upload your résumé under the **Résumé** tab.
+
+To change the password later, run `npm run hash-password` again, update `ADMIN_PASSWORD_HASH` (and `SESSION_SECRET` to sign out all sessions) in Vercel, and redeploy.
 
 ## Project structure
 
 ```
 src/
-├─ app/              # layout, fonts, SEO metadata, sitemap, robots, favicon
+├─ app/
+│  ├─ admin/         # login, editor page, server actions (save, upload, auth)
+│  ├─ resume/        # GET /resume — serves the uploaded PDF
+│  └─ page.tsx       # homepage, reads content from the database
 ├─ components/
+│  ├─ Admin/         # editor UI: tabs, list/chip editors, login form
 │  ├─ Hero/          # intro, CSS orb, stats strip
 │  ├─ Experience/    # "My Journey" story timeline
 │  ├─ Projects/      # case studies + animated flow diagrams
-│  ├─ Skills/        # grouped skill cards
-│  ├─ Contact/       # Web3Forms contact form
-│  ├─ Layout/        # navbar and footer
-│  └─ UI/            # scroll reveal, brand icons
-├─ data/content.ts   # all site content
-└─ lib/site.ts       # site URL + SEO config
+│  ├─ Skills/ Contact/ Layout/ UI/
+├─ data/content.ts   # built-in fallback content
+├─ lib/              # db, store, schema (zod), session (jose), password, rate limit
+└─ proxy.ts          # redirects /admin pages to login when signed out
+scripts/hash-password.mjs
 ```
 
 ## Deployment

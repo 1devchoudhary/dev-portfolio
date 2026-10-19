@@ -29,20 +29,31 @@ function Orbit({ size, tilt, reverse, dotAt }: { size: string; tilt: number; rev
 export default function Orb() {
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[300px] sm:max-w-[460px]">
-      {/* Glow */}
+      {/* Outer glow */}
       <div aria-hidden className="orb-breathe absolute inset-[12%] rounded-full bg-accent/40 blur-[70px]" />
 
-      {/* Sphere */}
+      {/* Corona: soft uneven rays that turn very slowly */}
+      <div aria-hidden className="sun-corona orbit-spin-slow absolute inset-[14%] rounded-full" />
+
+      {/* Star: glows from within (bright core, darker limb) with a slowly churning surface */}
       <div
         aria-hidden
-        className="absolute inset-[23%] rounded-full"
+        className="absolute z-10 inset-[23%] overflow-hidden rounded-full"
         style={{
           background:
-            "radial-gradient(circle at 34% 30%, #ffd9ae 0%, #ff9a3c 18%, #ff5900 45%, #9a2600 75%, #2b0b00 100%)",
+            "radial-gradient(circle, #fff6dc 0%, #ffd98a 18%, #ffab45 42%, #ff7a12 66%, #e24c00 84%, #9c2900 100%)",
           boxShadow:
-            "0 0 60px 6px rgba(255, 89, 0, 0.45), inset -24px -32px 60px rgba(0, 0, 0, 0.55), inset 10px 10px 40px rgba(255, 210, 160, 0.25)",
+            "0 0 30px 6px rgba(255, 170, 70, 0.55), 0 0 90px 24px rgba(255, 100, 0, 0.35), inset 0 0 36px 8px rgba(150, 30, 0, 0.55)",
         }}
-      />
+      >
+        <div className="sun-plasma-coarse orbit-spin-slow absolute -inset-[20%]" />
+        <div className="sun-plasma-fine orbit-spin-rev-slow absolute -inset-[20%]" />
+        {/* Limb darkening drawn over the texture so the edge stays deep orange */}
+        <div
+          className="absolute inset-0 rounded-full"
+          style={{ background: "radial-gradient(circle, transparent 55%, rgba(120, 25, 0, 0.45) 100%)" }}
+        />
+      </div>
 
       <Orbit size="98%" tilt={-18} dotAt={40} />
       <Orbit size="78%" tilt={24} reverse dotAt={200} />

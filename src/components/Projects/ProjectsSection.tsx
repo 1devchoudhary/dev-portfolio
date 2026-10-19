@@ -1,10 +1,8 @@
 import { Lock } from "lucide-react";
-import { portfolioContent } from "@/data/content";
+import type { SiteContent } from "@/lib/schema";
 import FlowDiagram from "./FlowDiagram";
 
-export default function ProjectsSection() {
-  const { projects } = portfolioContent;
-
+export default function ProjectsSection({ projects }: Pick<SiteContent, "projects">) {
   return (
     <section id="projects" className="relative py-24">
       <div className="mx-auto max-w-6xl px-6">

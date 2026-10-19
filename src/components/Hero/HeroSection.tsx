@@ -1,12 +1,11 @@
 import { ArrowRight, Box, CodeXml, Database, FileText, MapPin, Zap } from "lucide-react";
-import { portfolioContent } from "@/data/content";
+import type { SiteContent } from "@/lib/schema";
 import Orb from "./Orb";
 
 const statIcons = [CodeXml, Box, Database, Zap];
 
-export default function HeroSection() {
-  const { firstName, lastName, role, tagline, location, resume } = portfolioContent.hero;
-  const { stats } = portfolioContent;
+export default function HeroSection({ hero, stats }: Pick<SiteContent, "hero" | "stats">) {
+  const { firstName, lastName, role, tagline, location } = hero;
 
   return (
     <section id="hero" className="relative overflow-hidden pt-28 sm:pt-32 pb-16">
@@ -42,12 +41,12 @@ export default function HeroSection() {
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
               </a>
               <a
-                href={resume}
+                href="/resume"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg border border-accent/50 px-6 py-3 font-semibold transition-colors hover:border-accent hover:bg-accent/10"
               >
-                <FileText className="w-4 h-4" /> Résumé
+                <FileText className="w-4 h-4" /> Resume
               </a>
             </div>
           </div>
@@ -58,7 +57,7 @@ export default function HeroSection() {
         {/* Stats strip */}
         <div className="card mt-16 grid grid-cols-2 lg:grid-cols-4 overflow-hidden bg-gradient-to-br from-accent/[0.06] to-transparent border-accent/20">
           {stats.map((stat, i) => {
-            const Icon = statIcons[i];
+            const Icon = statIcons[i % statIcons.length];
             return (
               <div
                 key={stat.label}

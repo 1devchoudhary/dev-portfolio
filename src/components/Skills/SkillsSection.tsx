@@ -1,11 +1,9 @@
 import { Cloud, Database, LayoutDashboard, Server, Workflow } from "lucide-react";
-import { portfolioContent } from "@/data/content";
+import type { SiteContent } from "@/lib/schema";
 
 const icons = [Server, Database, Workflow, Cloud, LayoutDashboard];
 
-export default function SkillsSection() {
-  const { skills } = portfolioContent;
-
+export default function SkillsSection({ skills }: Pick<SiteContent, "skills">) {
   return (
     <section id="skills" className="py-24">
       <div className="mx-auto max-w-6xl px-6">
@@ -16,7 +14,7 @@ export default function SkillsSection() {
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-6">
           {skills.map((group, i) => {
-            const Icon = icons[i];
+            const Icon = icons[i % icons.length];
             // 3 cards on the first row, 2 wider ones on the second
             return (
               <div

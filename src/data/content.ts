@@ -1,11 +1,13 @@
-export const portfolioContent = {
+import type { SiteContent } from "@/lib/schema";
+
+// Fallback content: used until the first save from /admin, or whenever the database is unreachable
+export const defaultContent: SiteContent = {
   hero: {
     firstName: "Devendra",
     lastName: "Choudhary",
     role: "Backend-focused Full Stack Developer",
     tagline: "I build APIs, automations and the servers they run on.",
     location: "Indore, MP · Open to relocation",
-    resume: "/Devendra_Choudhary_Resume.pdf",
   },
   stats: [
     { value: "1.5+ years", label: "building with Node.js & Express" },
@@ -13,7 +15,6 @@ export const portfolioContent = {
     { value: "10+", label: "production migrations" },
     { value: "15 min → 1 click", label: "Xero statement automation" },
   ],
-  // Oldest first: the section reads as a story from first code to today
   journey: [
     {
       date: "2020",
@@ -21,7 +22,7 @@ export const portfolioContent = {
       title: "BCA — Bachelor of Computer Applications",
       org: "Vikram University · 75.5%",
       story: "Where I wrote my first programs and got hooked on making things work.",
-      points: [] as string[],
+      points: [],
     },
     {
       date: "2023",
@@ -61,7 +62,6 @@ export const portfolioContent = {
     title: "Next chapter",
     story: "Looking for a backend-focused role where I can own APIs, data and deployments. Open to relocation.",
   },
-  // Client work is under NDA: generic names, no links or screenshots
   projects: [
     {
       title: "Property Management Platform",

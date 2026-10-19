@@ -1,5 +1,4 @@
 import { ArrowUp } from "lucide-react";
-import { portfolioContent } from "@/data/content";
 
 const links = [
   { name: "Journey", href: "#journey" },
@@ -8,7 +7,7 @@ const links = [
   { name: "Contact", href: "#contact" },
 ];
 
-export default function Footer() {
+export default function Footer({ name }: { name: string }) {
   return (
     <footer className="border-t border-border">
       <div className="mx-auto max-w-6xl px-6 py-8 flex flex-col sm:flex-row items-center gap-6 sm:justify-between">
@@ -17,7 +16,7 @@ export default function Footer() {
             DC<span className="text-accent">.</span>
           </span>
           <span className="text-sm text-dim">
-            &copy; {new Date().getFullYear()} {portfolioContent.hero.firstName} {portfolioContent.hero.lastName}
+            &copy; {new Date().getFullYear()} {name}
           </span>
         </div>
 

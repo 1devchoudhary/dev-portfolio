@@ -1,9 +1,7 @@
 import { ArrowRight, Briefcase, GraduationCap, Rocket } from "lucide-react";
-import { portfolioContent } from "@/data/content";
+import type { SiteContent } from "@/lib/schema";
 
-export default function ExperienceSection() {
-  const { journey, next } = portfolioContent;
-
+export default function ExperienceSection({ journey, next }: Pick<SiteContent, "journey" | "next">) {
   return (
     <section id="journey" className="py-24">
       <div className="mx-auto max-w-6xl px-6">
@@ -27,9 +25,9 @@ export default function ExperienceSection() {
 
           {journey.map((step) => {
             const Icon = step.points.length ? Briefcase : GraduationCap;
-            const current = "current" in step && step.current;
+            const current = step.current;
             return (
-              <li key={step.title} className="reveal relative grid sm:grid-cols-[140px_1fr] gap-3 sm:gap-14 pb-10 pl-10 sm:pl-0">
+              <li key={`${step.date}-${step.title}`} className="reveal relative grid sm:grid-cols-[140px_1fr] gap-3 sm:gap-14 pb-10 pl-10 sm:pl-0">
                 <div className="sm:text-right sm:pt-5">
                   <p className="font-mono text-sm text-foreground">{step.date}</p>
                   <p className="font-mono text-xs text-dim mt-0.5">{step.place}</p>

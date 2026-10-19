@@ -108,7 +108,33 @@ h1, h2, h3, h4 {
 
 .orbit-spin { animation: orbit-spin 60s linear infinite; }
 .orbit-spin-rev { animation: orbit-spin 80s linear infinite reverse; }
+.orbit-spin-slow { animation: orbit-spin 140s linear infinite; }
+.orbit-spin-rev-slow { animation: orbit-spin 100s linear infinite reverse; }
 .orbit-counter { animation: orbit-spin 60s linear infinite reverse; }
+
+/* Sun surface: static SVG noise rendered once by the browser, then only rotated (GPU-cheap) */
+.sun-plasma-coarse {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.018' numOctaves='4' seed='7'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: cover;
+  mix-blend-mode: overlay;
+  opacity: 0.75;
+}
+.sun-plasma-fine {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.09' numOctaves='3' seed='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: cover;
+  mix-blend-mode: soft-light;
+  opacity: 0.6;
+}
+.sun-corona {
+  background: conic-gradient(
+    from 10deg,
+    rgba(255, 150, 50, 0.22), rgba(255, 150, 50, 0) 18deg, rgba(255, 170, 70, 0.3) 40deg, rgba(255, 150, 50, 0) 65deg,
+    rgba(255, 130, 40, 0.18) 95deg, rgba(255, 150, 50, 0) 120deg, rgba(255, 180, 80, 0.28) 150deg, rgba(255, 150, 50, 0) 172deg,
+    rgba(255, 140, 40, 0.2) 205deg, rgba(255, 150, 50, 0) 230deg, rgba(255, 170, 70, 0.3) 262deg, rgba(255, 150, 50, 0) 290deg,
+    rgba(255, 130, 40, 0.2) 318deg, rgba(255, 150, 50, 0) 340deg, rgba(255, 150, 50, 0.22) 360deg
+  );
+  mask-image: radial-gradient(circle, transparent 40%, #000 46%, transparent 72%);
+}
 .orbit-counter-rev { animation: orbit-spin 80s linear infinite; }
 .orb-breathe { animation: orb-breathe 6s ease-in-out infinite; }
 .flow-dash { animation: flow-dash 1s linear infinite; }
@@ -130,5 +156,5 @@ h1, h2, h3, h4 {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal-ready .reveal { opacity: 1; transform: none; transition: none; }
-  .orbit-spin, .orbit-spin-rev, .orbit-counter, .orbit-counter-rev, .orb-breathe, .flow-dash, .journey-fill { animation: none !important; }
+  .orbit-spin, .orbit-spin-rev, .orbit-spin-slow, .orbit-spin-rev-slow, .orbit-counter, .orbit-counter-rev, .orb-breathe, .flow-dash, .journey-fill { animation: none !important; }
 }
