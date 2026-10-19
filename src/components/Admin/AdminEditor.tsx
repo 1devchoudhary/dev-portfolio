@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
-import { ExternalLink, FileText, LogOut, Save, Upload } from "lucide-react";
+import { Briefcase, ExternalLink, FileText, LogOut, Save, Upload } from "lucide-react";
 import type { SiteContent } from "@/lib/schema";
 import type { ResumeMeta } from "@/lib/store";
 import { logout, saveContentAction, uploadResumeAction } from "@/app/admin/actions";
@@ -116,6 +116,9 @@ export default function AdminEditor({
             </p>
             <p className="text-xs text-dim">Last saved: {formatDate(updatedAt)}</p>
           </div>
+          <a href="/admin/jobs" className="inline-flex items-center gap-1.5 text-sm text-body hover:text-foreground">
+            <Briefcase className="w-3.5 h-3.5" /> Job inbox
+          </a>
           <a href="/" target="_blank" className="inline-flex items-center gap-1.5 text-sm text-body hover:text-foreground">
             View site <ExternalLink className="w-3.5 h-3.5" />
           </a>

@@ -74,12 +74,41 @@ Everything on the site (profile, stats, journey, projects, skills, links) and th
 
 To change the password later, run `npm run hash-password` again, update `ADMIN_PASSWORD_HASH` (and `SESSION_SECRET` to sign out all sessions) in Vercel, and redeploy.
 
+## Job inbox — `/admin/jobs`
+
+A private, admin-only page that collects job openings into one list, scores them against my skills and tracks HR contacts. It **never logs into or scrapes Naukri, LinkedIn or the other platforms**. It only reads the job-alert emails they already send me, plus free public job APIs.
+
+- **Sources:** alert emails from Naukri, LinkedIn, Wellfound, Instahyre and Cutshort (read from Gmail over IMAP, read-only), Remotive, RemoteOK, and the Greenhouse / Lever / Ashby boards of companies listed in *Settings*.
+- **Scoring:** keyword rules that are editable in *Settings*. Points for Node.js, Express, MERN, MySQL, MongoDB and preferred cities; points against Java, PHP, .NET and so on. +15 if the job needs ≤ 2 years, −30 if it needs more. Titles containing words like "Senior" or "Intern" are hidden.
+- **De-duplication:** the same job seen on two platforms appears once and shows both sources.
+- **HR contacts:** emails written in a job description are picked up automatically. Contacts can be added by hand, LinkedIn-note / email / follow-up templates are filled in with one click, and follow-ups show up 6 days after messaging. Nothing is ever sent automatically.
+- **Runs:** daily via Vercel Cron, every 15 minutes via an external pinger (optional), or with **Run now**.
+
+### Setup (free)
+
+1. **Gmail app password:** turn on 2-Step Verification for the Google account, then create an app password at <https://myaccount.google.com/apppasswords>.
+2. **Environment variables** (in `.env.local` and in Vercel), then redeploy:
+   ```bash
+   GMAIL_USER=you@gmail.com
+   GMAIL_APP_PASSWORD=abcd efgh ijkl mnop
+   CRON_SECRET=any-random-string-of-32-plus-characters
+   # optional: read a different Gmail folder/label instead of INBOX
+   GMAIL_MAILBOX=INBOX
+   ```
+3. **Job alerts:** switch on email job alerts in Naukri, LinkedIn, Wellfound, Instahyre and Cutshort for searches like "Node.js Developer".
+4. **Every 15 minutes (optional):** Vercel's free plan runs crons only once a day. For faster checks, create a free job at <https://cron-job.org>:
+   - URL: `https://<your-domain>/api/cron/jobs`
+   - Schedule: every 15 minutes
+   - Advanced → Headers: `Authorization: Bearer <CRON_SECRET>`
+
 ## Project structure
 
 ```
 src/
 ├─ app/
 │  ├─ admin/         # login, editor page, server actions (save, upload, auth)
+│  │  └─ jobs/       # job inbox page + its server actions
+│  ├─ api/cron/jobs/ # GET — one collection run, needs the CRON_SECRET header
 │  ├─ resume/        # GET /resume — serves the uploaded PDF
 │  └─ page.tsx       # homepage, reads content from the database
 ├─ components/
@@ -90,6 +119,7 @@ src/
 │  ├─ Skills/ Contact/ Layout/ UI/
 ├─ data/content.ts   # built-in fallback content
 ├─ lib/              # db, store, schema (zod), session (jose), password, rate limit
+│  └─ jobs/          # job inbox: Gmail reader, per-platform email parsers, public APIs, scoring, storage
 └─ proxy.ts          # redirects /admin pages to login when signed out
 scripts/hash-password.mjs
 ```

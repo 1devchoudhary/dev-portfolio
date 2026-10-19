@@ -52,3 +52,59 @@ export const siteContentSchema = z.object({
 });
 
 export type SiteContent = z.infer<typeof siteContentSchema>;
+
+/* ---------- Job inbox ---------- */
+
+const termGroup = z.object({
+  // Aliases of one keyword, e.g. ["node", "node.js", "nodejs"]; matched as whole words
+  terms: list(text(40).min(1), 20).min(1),
+  weight: z.number().int().min(0).max(50),
+});
+
+export const jobSettingsSchema = z.object({
+  positive: list(termGroup, 40),
+  negative: list(termGroup, 40),
+  // Any of these in the title hides the job automatically (Senior, Intern, …)
+  excludeTitle: list(text(40).min(1), 60),
+  locations: list(text(40).min(1), 20),
+  maxMinYears: z.number().int().min(0).max(15),
+  minScore: z.number().int().min(0).max(100),
+  companies: list(
+    z.object({
+      ats: z.enum(["greenhouse", "lever", "ashby"]),
+      slug: text(60).regex(/^[a-z0-9][a-z0-9-_.]*$/i, "Use the board name from the careers URL"),
+    }),
+    40
+  ),
+  apis: z.object({ remotive: z.boolean(), remoteok: z.boolean() }),
+  templates: z.object({
+    linkedinNote: text(300),
+    emailSubject: text(200),
+    emailBody: text(3000),
+    followUp: text(1000),
+  }),
+});
+
+export type JobSettings = z.infer<typeof jobSettingsSchema>;
+
+export const jobStatusSchema = z.enum(["new", "saved", "applied", "hidden"]);
+export type JobStatus = z.infer<typeof jobStatusSchema>;
+
+export const contactInputSchema = z.object({
+  name: text(80).min(1),
+  role: text(80),
+  linkedin: z.union([link, z.literal("")]),
+  email: z.union([z.email().max(120), z.literal("")]),
+});
+
+export const manualJobSchema = z.object({
+  title: text(160).min(1),
+  company: text(120),
+  location: text(120),
+  url: link,
+});
+
+export const jobDetailsSchema = z.object({
+  description: text(15000),
+  notes: text(2000),
+});

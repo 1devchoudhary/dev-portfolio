@@ -10,10 +10,13 @@
     "hash-password": "node scripts/hash-password.mjs"
   },
   "dependencies": {
+    "imapflow": "^2.5.7",
     "jose": "^6.2.12",
     "lucide-react": "^1.25.0",
+    "mailparser": "^3.9.47",
     "mongodb": "^7.7.0",
     "next": "16.2.10",
+    "node-html-parser": "^9.0.5",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "server-only": "^0.0.1",
@@ -21,6 +24,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/mailparser": "^3.9.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
