@@ -1,115 +1,121 @@
 export const portfolioContent = {
   hero: {
-    name: "Devendra Choudhary",
-    role: "Full Stack MERN Developer",
-    tagline:
-      "I build end-to-end web applications with React, Node.js, and MongoDB — secure authentication, clean REST APIs, and interfaces that feel fast. Currently shipping production software at Quark Consulting.",
+    firstName: "Devendra",
+    lastName: "Choudhary",
+    role: "Backend-focused Full Stack Developer",
+    tagline: "I build APIs, automations and the servers they run on.",
+    location: "Indore, MP · Open to relocation",
+    resume: "/Devendra_Choudhary_Resume.pdf",
   },
-  about: {
-    bio: "I'm a full-stack developer from Indore, India, working across the MERN stack. In the past year I've gone from intern to production developer — building REST APIs, JWT-secured auth flows with role-based access, and responsive UIs, and wiring real products together with n8n automations, Twilio, Xero, and CRM integrations. I hold an MCA from MediCaps University, and I like owning features end to end: database to API to pixel. This site — built with Next.js and Three.js — is me stretching beyond the day job.",
-    stats: [
-      { label: "Years Experience", value: "1+" },
-      { label: "Apps Built End-to-End", value: "3+" },
-      { label: "REST APIs Shipped", value: "20+" },
-    ],
-  },
-  skills: [
+  stats: [
+    { value: "1.5+ years", label: "building with Node.js & Express" },
+    { value: "6", label: "client apps shipped" },
+    { value: "10+", label: "production migrations" },
+    { value: "15 min → 1 click", label: "Xero statement automation" },
+  ],
+  // Oldest first: the section reads as a story from first code to today
+  journey: [
     {
-      category: "Frontend",
-      items: ["React.js", "JavaScript (ES6+)", "Tailwind CSS", "HTML5 & CSS3", "Vite"],
+      date: "2020",
+      place: "Ujjain",
+      title: "BCA — Bachelor of Computer Applications",
+      org: "Vikram University · 75.5%",
+      story: "Where I wrote my first programs and got hooked on making things work.",
+      points: [] as string[],
     },
     {
-      category: "Backend & Security",
-      items: ["Node.js", "Express.js", "MongoDB", "MySQL", "REST APIs", "JWT · Bcrypt · 2FA"],
+      date: "2023",
+      place: "Indore",
+      title: "MCA — Master of Computer Applications",
+      org: "MediCaps University · CGPA 7.58",
+      story: "Moved to Indore and started building full-stack projects alongside the coursework.",
+      points: [],
     },
     {
-      category: "Tools & Integrations",
-      items: [
-        "Git & GitHub",
-        "Postman",
-        "MongoDB Atlas",
-        "n8n",
-        "VPS Deployment",
-        "Twilio",
-        "Xero",
-        "Pipedrive CRM",
-        "Google Cloud",
+      date: "Jan 2025",
+      place: "First job",
+      title: "Full Stack Web Developer Intern",
+      org: "Shanti Infosoft LLP, Indore",
+      story: "My first team, first code reviews, and first app with real users.",
+      points: [
+        "Built ResolveHub, a MERN ticketing system: users raise and track tickets; admins assign, prioritise and update status through JWT-protected admin routes.",
+        "Tested REST APIs with Postman and built responsive React + Tailwind CSS dashboards for users and admins.",
+      ],
+    },
+    {
+      date: "Jul 2025 — Present",
+      place: "Production",
+      title: "Full Stack Developer",
+      org: "Quark Consulting, Indore",
+      story: "Now I own client systems end to end — from database schema to the server they run on.",
+      current: true,
+      points: [
+        "Built and delivered 6 client applications end to end (property, workforce, marketing analytics, health-tech): Node.js/Express REST APIs, MySQL and MongoDB schemas, React front-ends.",
+        "Migrated 10+ production websites with near-zero downtime: Nginx, PM2, SSL, database backup & restore and DNS cutover.",
+        "Deployed 6–7 of my own applications and several teammates' projects to Linux VPS servers with Nginx reverse proxy, PM2 and SSL.",
+        "Built n8n automations: a lead pipeline (Facebook group → Google Sheets → CRM) and a Vapi AI voice assistant that answers calls for a salon.",
       ],
     },
   ],
-  journey: [
-    {
-      id: 1,
-      year: "Now",
-      title: "Full Stack Developer",
-      company: "Quark Consulting",
-      description:
-        "Building and maintaining production MERN applications — REST APIs with Node and Express, JWT authentication with role-based access control, and n8n + CRM automations that streamline real business workflows.",
-    },
-    {
-      id: 2,
-      year: "2025",
-      title: "Full Stack Developer Intern",
-      company: "Shanti Infosoft LLP, Indore",
-      description:
-        "End-to-end MERN development across frontend, backend, and database. Built and tested REST APIs with Node and Express, and shipped responsive React + Tailwind interfaces.",
-    },
-    {
-      id: 3,
-      year: "2023",
-      title: "MCA — Master of Computer Applications",
-      company: "MediCaps University, Indore",
-      description:
-        "Deepened my software engineering foundations while building full-stack projects alongside the coursework. Graduated in 2025 with a 7.58 CGPA.",
-    },
-    {
-      id: 4,
-      year: "2020",
-      title: "BCA — Bachelor of Computer Applications",
-      company: "Vikram University, Ujjain",
-      description:
-        "Where it all started — three years of computer applications fundamentals and my first real programs. Finished with 75.5%.",
-    },
-  ],
+  next: {
+    title: "Next chapter",
+    story: "Looking for a backend-focused role where I can own APIs, data and deployments. Open to relocation.",
+  },
+  // Client work is under NDA: generic names, no links or screenshots
   projects: [
     {
-      id: 1,
-      title: "Property Management System",
-      problem:
-        "Property managers juggle three very different audiences — admins, landlords, and tenants — plus accounting, scheduling, and constant back-and-forth communication, usually spread across disconnected tools.",
+      title: "Property Management Platform",
+      summary: "Rent, accounting and landlord statements for a property manager — live in production.",
+      flow: ["Cron · 30 min", "Xero invoice", "Payment", "Fee / landlord split", "Landlord bill"],
+      problem: "Rent invoicing, payment matching and landlord statements were manual work in Xero, taking 15–20 minutes per statement.",
       solution:
-        "A full-stack MERN + MySQL platform with role-based workflows for all three user types, secured by JWT, bcrypt, and OTP-based 2FA. Built 20+ REST APIs for property, user, and workflow management, integrated accounting and calendar services, and added a real-time chat and email notification module.",
-      impact:
-        "One system now covers the entire property workflow — secure multi-role access, automated accounting and scheduling, and conversation tracking across every user.",
-      tags: ["React", "Node.js", "Express", "MongoDB", "MySQL", "JWT"],
-      liveLink: "",
-      githubLink: "",
+        "Automated the rent cycle with Xero over OAuth2 — invoices every 30 minutes, payments read back and split, landlord bills after admin approval — plus a daily bank-transaction import with auto-matching and a review queue.",
+      impact: "Statements went from 15–20 minutes of manual work to one click, with 8 scheduled cron jobs guarded against overlap.",
+      tags: ["Node.js", "Express", "MySQL", "Xero API", "React"],
     },
     {
-      id: 2,
-      title: "Dental Care Website",
-      problem:
-        "A dental practice needed more than a brochure site — patient images had to be collected, processed, and routed without anyone doing it by hand.",
+      title: "Workforce Management SaaS",
+      summary: "Rostering, timesheets, clock-in and leave for employers — live, rollout in progress.",
+      flow: ["Login", "JWT 15 min", "Rotating refresh", "RBAC · 5 roles", "Rosters & timesheets"],
+      problem: "The employer was paying for a commercial tool to manage rosters, timesheets and leave.",
       solution:
-        "A full-stack MERN application with secure image upload, JWT-protected routes, and n8n automation workflows that process uploads and handle follow-up tasks automatically.",
-      impact:
-        "Image handling and routine follow-ups run themselves through automation, and every protected route sits behind authenticated access.",
-      tags: ["React", "Node.js", "Express", "MongoDB", "n8n"],
-      liveLink: "",
-      githubLink: "",
+        "Built the replacement with secure auth: 15-minute JWT access tokens and rotating refresh tokens in httpOnly cookies, 5-level role-based access through Express middleware, and login rate limiting.",
+      impact: "Reusing an old refresh token revokes every session, so a stolen token can't quietly stay valid.",
+      tags: ["Node.js", "Express", "MySQL", "React"],
     },
     {
-      id: 3,
-      title: "Resolve Hub — Support Ticketing",
-      problem:
-        "Support requests scattered across inboxes make it impossible to track who asked what, who's handling it, and whether it ever got resolved.",
-      solution:
-        "A MERN ticketing system with separate user and admin dashboards, full ticket lifecycle management — creation, updates, status tracking — and role-based access control for each user type.",
-      impact:
-        "Every request becomes a trackable ticket with an owner and a status, giving users visibility and admins a single queue to work from.",
-      tags: ["React", "Node.js", "Express", "MongoDB"],
-      liveLink: "",
-      githubLink: "",
+      title: "Marketing Analytics Dashboard",
+      summary: "One dashboard over 8 marketing and CRM APIs.",
+      flow: ["8 APIs", "Parallel requests", "Failure isolation", "30-min cache", "Dashboard"],
+      problem: "Marketing data lived in Google Analytics, Google Ads, LinkedIn, Mailchimp, Meta, Asana and more — each in its own tab.",
+      solution: "Combined 8 marketing and CRM APIs into one dashboard with parallel requests, per-API failure isolation and a 30-minute cache.",
+      impact: "One slow or failing API no longer breaks the whole view, and repeat loads come from cache.",
+      tags: ["Node.js", "Express", "React"],
+    },
+    {
+      title: "AI Dental Screening App",
+      summary: "Patients upload photos and receive an AI screening report.",
+      flow: ["5 photos", "Multer upload", "n8n AI workflow", "Screening report"],
+      problem: "Dental screening needed a simple way to collect photos and turn them into a report without manual handling.",
+      solution: "A 5-photo upload with Multer feeding an n8n AI workflow that returns a per-view screening report; email-OTP signup with a MongoDB TTL index and JWT refresh-token login.",
+      impact: "Upload to report runs end to end through automation, behind OTP-verified accounts.",
+      tags: ["Node.js", "Express", "MongoDB", "React", "n8n"],
+    },
+  ],
+  skills: [
+    {
+      category: "Backend",
+      items: ["JavaScript (ES6+)", "Node.js", "Express.js", "REST APIs", "JWT", "OAuth2", "Role-based access", "Multer", "node-cron"],
+    },
+    { category: "Databases", items: ["MySQL", "SQL", "MongoDB (Mongoose)"] },
+    {
+      category: "Integrations & Automation",
+      items: ["Xero API", "Google APIs", "Mailchimp", "n8n", "Vapi", "Webhooks"],
+    },
+    { category: "DevOps", items: ["Linux VPS", "Nginx", "PM2", "Docker (basic)", "SSL", "DNS"] },
+    {
+      category: "Frontend & Tools",
+      items: ["React.js", "Tailwind CSS", "Git", "GitHub", "Postman", "Claude Code"],
     },
   ],
   socials: {

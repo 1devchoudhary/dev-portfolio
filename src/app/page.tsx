@@ -1,35 +1,25 @@
 import HeroSection from "@/components/Hero/HeroSection";
-import AboutSection from "@/components/About/AboutSection";
-import SkillsSection from "@/components/Skills/SkillsSection";
-import JourneySection from "@/components/Journey/JourneySection";
+import ExperienceSection from "@/components/Experience/ExperienceSection";
 import ProjectsSection from "@/components/Projects/ProjectsSection";
+import SkillsSection from "@/components/Skills/SkillsSection";
 import ContactSection from "@/components/Contact/ContactSection";
 import Navbar from "@/components/Layout/Navbar";
 import Footer from "@/components/Layout/Footer";
-import CustomCursor from "@/components/UI/CustomCursor";
-import CursorBuddy from "@/components/UI/CursorBuddy";
-import LoadingScreen from "@/components/UI/LoadingScreen";
-import SmoothScroll from "@/components/UI/SmoothScroll";
-import AmbientGlow from "@/components/UI/AmbientGlow";
+import Reveal from "@/components/UI/Reveal";
 
 export default function Home() {
   return (
-    <main className="relative bg-background min-h-screen text-foreground selection:bg-accent selection:text-white">
-      <LoadingScreen />
-      <SmoothScroll />
-      <AmbientGlow />
-      <CustomCursor />
-      <CursorBuddy />
+    <>
+      <Reveal />
       <Navbar />
-      
-      <HeroSection />
-      <AboutSection />
-      <SkillsSection />
-      <JourneySection />
-      <ProjectsSection />
-      <ContactSection />
-      
+      <main className="flex-1">
+        <HeroSection />
+        <ExperienceSection />
+        <ProjectsSection />
+        <SkillsSection />
+        <ContactSection />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }

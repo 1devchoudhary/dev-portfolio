@@ -1,70 +1,88 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "motion/react";
-import { portfolioContent } from "@/data/content";
+import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
+
+const navLinks = [
+  { name: "Journey", href: "#journey" },
+  { name: "Projects", href: "#projects" },
+  { name: "Skills", href: "#skills" },
+  { name: "Contact", href: "#contact" },
+];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
-
-  const navLinks = [
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Journey", href: "#journey" },
-    { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" },
-  ];
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-
-      // Simple intersection logic for active section
-      const sections = navLinks.map(link => link.href.substring(1));
+      setScrolled(window.scrollY > 24);
       let current = "";
-      
-      for (const section of sections) {
-        const element = document.getElementById(section);
+      for (const link of navLinks) {
+        const element = document.getElementById(link.href.substring(1));
         if (element && window.scrollY >= element.offsetTop - 150) {
-          current = section;
+          current = link.href.substring(1);
         }
       }
       setActiveSection(current);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 border transition-all duration-300 ${
-        scrolled ? "py-4 glass shadow-glow" : "py-6 bg-transparent border-accent/0"
+    <nav
+      className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300 ${
+        scrolled || open ? "bg-background/80 backdrop-blur-md border-b border-border" : "border-b border-transparent"
       }`}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center max-w-7xl">
-        <a href="#" className="text-xl font-heading font-bold tracking-wider hover:text-accent transition-colors">
+      <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
+        <a href="#" className="font-heading text-xl font-extrabold tracking-tight">
           DC<span className="text-accent">.</span>
         </a>
 
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden sm:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className={`text-sm font-medium transition-colors hover:text-accent ${
-                activeSection === link.href.substring(1) ? "text-accent" : "text-gray-300"
+              className={`text-sm transition-colors hover:text-foreground ${
+                activeSection === link.href.substring(1) ? "text-accent" : "text-body"
               }`}
             >
               {link.name}
             </a>
           ))}
         </div>
+
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          className="sm:hidden p-2 -mr-2 text-body hover:text-foreground"
+        >
+          {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
       </div>
-    </motion.nav>
+
+      {open && (
+        <div className="sm:hidden px-6 pb-4 flex flex-col">
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className="py-3 border-t border-border text-body hover:text-foreground"
+            >
+              {link.name}
+            </a>
+          ))}
+        </div>
+      )}
+    </nav>
   );
 }

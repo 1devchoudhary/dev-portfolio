@@ -6,8 +6,8 @@ export const SITE_URL =
 
 export const SITE = {
   name: "Devendra Choudhary",
-  title: "Devendra Choudhary — Full Stack MERN Developer",
+  title: "Devendra Choudhary — Backend-focused Full Stack Developer",
   description:
-    "Full Stack MERN developer from Indore building secure, scalable web apps with React, Node.js, Express, and MongoDB — REST APIs, JWT auth, and interfaces that feel fast.",
+    "Backend-focused Full Stack Developer from Indore with 1.5+ years building and deploying Node.js/Express applications on MySQL and MongoDB — REST APIs, secure auth, integrations and automation.",
   url: SITE_URL,
 };

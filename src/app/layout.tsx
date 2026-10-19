@@ -1,15 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Syne, Inter } from "next/font/google";
+import { Sora, Inter, JetBrains_Mono } from "next/font/google";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 
-const syne = Syne({
-  variable: "--font-syne",
+const sora = Sora({
+  variable: "--font-sora",
   subsets: ["latin"],
+  weight: ["600", "700", "800"],
 });
 
 const inter = Inter({
   variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
   subsets: ["latin"],
 });
 
@@ -27,8 +33,9 @@ export const metadata: Metadata = {
   description: SITE.description,
   keywords: [
     "Devendra Choudhary",
+    "Backend Developer",
     "Full Stack Developer",
-    "MERN Developer",
+    "Node.js Developer",
     "React Developer",
     "Node.js",
     "MongoDB",
@@ -50,7 +57,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: `${SITE.name} — Full Stack MERN Developer`,
+        alt: `${SITE.name} — Backend-focused Full Stack Developer`,
       },
     ],
   },
@@ -72,8 +79,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${syne.variable} ${inter.variable}`} suppressHydrationWarning>
-      <body className="min-h-full flex flex-col antialiased selection:bg-[#ff5900] selection:text-white">
+    <html lang="en" className={`${sora.variable} ${inter.variable} ${jetbrains.variable}`}>
+      <body className="min-h-full flex flex-col antialiased">
         {children}
       </body>
     </html>

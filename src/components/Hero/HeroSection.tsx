@@ -1,108 +1,77 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-import dynamic from "next/dynamic";
-import { motion } from "motion/react";
+import { ArrowRight, Box, CodeXml, Database, FileText, MapPin, Zap } from "lucide-react";
 import { portfolioContent } from "@/data/content";
-import MagneticButton from "../UI/MagneticButton";
+import Orb from "./Orb";
 
-// Dynamically load the 3D scene so it doesn't block hydration or text rendering
-const Scene = dynamic(() => import("./Scene"), {
-  ssr: false,
-  loading: () => <StaticGlow />,
-});
-
-// Shown while the 3D chunk loads, and permanently on touch/small/no-WebGL devices
-function StaticGlow() {
-  return (
-    <div aria-hidden className="relative w-full h-full flex items-center justify-center">
-      <div className="relative w-52 h-52 md:w-72 md:h-72">
-        <div className="absolute inset-0 rounded-full bg-accent/30 blur-3xl motion-safe:animate-pulse" />
-        <div className="absolute inset-4 rounded-full border border-accent/40 bg-[#121215] shadow-glow-strong" />
-        <div className="absolute inset-0 rounded-full border border-accent/15" />
-      </div>
-    </div>
-  );
-}
+const statIcons = [CodeXml, Box, Database, Zap];
 
 export default function HeroSection() {
-  const { name, role, tagline } = portfolioContent.hero;
-  const sectionRef = useRef<HTMLElement>(null);
-
-  // Only fetch and mount the 3D scene on desktop-class devices with WebGL;
-  // everyone else keeps the lightweight static visual
-  const [show3D, setShow3D] = useState(false);
-  useEffect(() => {
-    const probe = document.createElement("canvas");
-    const hasWebGL = !!(probe.getContext("webgl2") || probe.getContext("webgl"));
-    // Re-evaluate on resize/rotate so the scene mounts/unmounts across the breakpoint
-    const evaluate = () => {
-      const finePointer = window.matchMedia("(pointer: fine)").matches;
-      const wideEnough = window.innerWidth >= 768;
-      setShow3D(hasWebGL && finePointer && wideEnough);
-    };
-    evaluate();
-    window.addEventListener("resize", evaluate);
-    return () => window.removeEventListener("resize", evaluate);
-  }, []);
+  const { firstName, lastName, role, tagline, location, resume } = portfolioContent.hero;
+  const { stats } = portfolioContent;
 
   return (
-    <section
-      ref={sectionRef}
-      id="hero"
-      className="relative w-full min-h-screen md:h-screen flex items-start md:items-center pt-28 md:pt-0"
-    >
-      {/* Full-bleed 3D backdrop: spans the whole hero so the canvas has no visible
-          edges; pointer events are routed from the section element instead */}
-      {show3D && (
-        <div className="absolute inset-0 pointer-events-none">
-          <Scene eventSource={sectionRef} />
-        </div>
-      )}
+    <section id="hero" className="relative overflow-hidden pt-28 sm:pt-32 pb-16">
+      <div aria-hidden className="absolute inset-0 bg-grid" />
+      <div
+        aria-hidden
+        className="absolute -top-40 right-0 h-[600px] w-[600px] rounded-full bg-accent/10 blur-[120px]"
+      />
 
-      <div className="container mx-auto px-6 max-w-7xl grid md:grid-cols-2 gap-8 items-center z-10">
-        
-        <div className="flex flex-col items-start space-y-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <p className="text-accent font-medium tracking-widest uppercase mb-2">Hello, I am</p>
-            <h1 className="text-5xl md:text-7xl font-heading font-bold leading-tight mb-2">
-              {name}
-            </h1>
-            <p className="text-2xl md:text-3xl text-gray-400 font-heading">
-              {role}
+      <div className="relative mx-auto max-w-6xl px-6">
+        <div className="grid items-center gap-12 md:grid-cols-[1.1fr_1fr]">
+          <div>
+            <p className="flex items-center gap-3 text-body">
+              Hello, I&apos;m <span className="h-px w-8 bg-accent" />
             </p>
-          </motion.div>
+            <h1 className="mt-4 text-5xl sm:text-7xl font-extrabold leading-[1.02] tracking-tight">
+              {firstName}
+              <br />
+              <span className="text-gradient">{lastName}</span>
+            </h1>
+            <p className="mt-6 text-xl sm:text-2xl font-heading font-semibold">{role}</p>
+            <p className="mt-3 text-body text-lg">{tagline}</p>
+            <p className="mt-4 flex items-center gap-1.5 text-sm text-dim">
+              <MapPin className="w-4 h-4" /> {location}
+            </p>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-gray-400 max-w-md leading-relaxed"
-          >
-            {tagline}
-          </motion.p>
+            <div className="mt-9 flex flex-wrap gap-4">
+              <a
+                href="#projects"
+                className="group inline-flex items-center gap-2 rounded-lg bg-gradient-accent px-6 py-3 font-semibold text-white shadow-[0_8px_30px_-8px_rgba(255,89,0,0.6)] transition-transform hover:-translate-y-0.5"
+              >
+                View Projects
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+              </a>
+              <a
+                href={resume}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-accent/50 px-6 py-3 font-semibold transition-colors hover:border-accent hover:bg-accent/10"
+              >
+                <FileText className="w-4 h-4" /> Résumé
+              </a>
+            </div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-wrap gap-4 pt-4"
-          >
-            <MagneticButton href="#projects" variant="primary">
-              View Projects
-            </MagneticButton>
-            <MagneticButton href="#contact" variant="outline">
-              Contact Me
-            </MagneticButton>
-          </motion.div>
+          <Orb />
         </div>
 
-        <div className="relative w-full h-[300px] md:h-[600px]">
-          {!show3D && <StaticGlow />}
+        {/* Stats strip */}
+        <div className="card mt-16 grid grid-cols-2 lg:grid-cols-4 overflow-hidden bg-gradient-to-br from-accent/[0.06] to-transparent border-accent/20">
+          {stats.map((stat, i) => {
+            const Icon = statIcons[i];
+            return (
+              <div
+                key={stat.label}
+                className={`p-6 sm:p-7 ${i % 2 === 1 ? "border-l border-border" : ""} ${
+                  i >= 2 ? "border-t lg:border-t-0 border-border" : ""
+                } ${i === 2 ? "lg:border-l" : ""}`}
+              >
+                <Icon className="w-6 h-6 text-accent" strokeWidth={1.75} />
+                <p className="mt-4 font-heading text-xl sm:text-2xl font-bold">{stat.value}</p>
+                <p className="mt-1 text-sm text-body">{stat.label}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

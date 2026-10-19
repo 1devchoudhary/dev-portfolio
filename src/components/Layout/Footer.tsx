@@ -1,12 +1,42 @@
+import { ArrowUp } from "lucide-react";
 import { portfolioContent } from "@/data/content";
+
+const links = [
+  { name: "Journey", href: "#journey" },
+  { name: "Projects", href: "#projects" },
+  { name: "Skills", href: "#skills" },
+  { name: "Contact", href: "#contact" },
+];
 
 export default function Footer() {
   return (
-    <footer className="py-8 text-center border-t border-accent/10 mt-20">
-      <div className="container mx-auto px-6">
-        <p className="text-gray-400 text-sm">
-          &copy; {new Date().getFullYear()} {portfolioContent.hero.name}. All rights reserved.
-        </p>
+    <footer className="border-t border-border">
+      <div className="mx-auto max-w-6xl px-6 py-8 flex flex-col sm:flex-row items-center gap-6 sm:justify-between">
+        <div className="flex items-center gap-4">
+          <span className="font-heading text-xl font-extrabold">
+            DC<span className="text-accent">.</span>
+          </span>
+          <span className="text-sm text-dim">
+            &copy; {new Date().getFullYear()} {portfolioContent.hero.firstName} {portfolioContent.hero.lastName}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-6">
+          <nav className="flex gap-5 text-sm text-body">
+            {links.map((link) => (
+              <a key={link.name} href={link.href} className="hover:text-foreground transition-colors">
+                {link.name}
+              </a>
+            ))}
+          </nav>
+          <a
+            href="#"
+            aria-label="Back to top"
+            className="grid h-10 w-10 place-items-center rounded-full border border-border text-body transition-colors hover:border-accent hover:text-accent"
+          >
+            <ArrowUp className="w-4 h-4" />
+          </a>
+        </div>
       </div>
     </footer>
   );
